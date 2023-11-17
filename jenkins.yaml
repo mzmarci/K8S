@@ -1,4 +1,4 @@
-apiversion: storage.k8s.io/v1
+apiversion: v1
 Kind: StorageClass
 Metadata:
   name: jenkins-storageclass
