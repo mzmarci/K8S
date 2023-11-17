@@ -1,0 +1,66 @@
+apiversion: storage.k8s.io/v1
+Kind: StorageClass
+Metadata:
+  name: jenkins-storageclass
+Provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+Reclaimpolicy: Retain
+Allowvolumeexpansion: true
+Mountoptions:
+  - debug
+Volumebindingmode: Immediate
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-volume
+spec:
+  capacity:
+   storage: 5Gi
+  accessModes:
+   - ReadWriteOnce
+  storageClassName: slow
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+    storage: 8Gi
+ 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+        - name: jenkins
+          image: jenkins/jenkins:lts
+          ports:
+            - name: httpport
+              containerPort: 8080
+            - name: jnlpport
+              containerPort: 50000
+          volumeMounts:
+            - name: jenkins-vol
+              mountPath: /var/jenkins_home        
+      volumes:
+        - name: jenkins-vol
+          persistentVolumeClaim:
+              claimName: jenkins-pv-claim
