@@ -1,5 +1,5 @@
 ---
-apiversion: storage.k8s.io/v1
+apiVersion: storage.k8s.io/v1
 Kind: StorageClass
 Metadata:
   name: redis-storageclass
