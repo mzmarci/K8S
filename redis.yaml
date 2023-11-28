@@ -1,3 +1,4 @@
+---
 apiversion: storage.k8s.io/v1
 Kind: StorageClass
 Metadata:
@@ -11,6 +12,8 @@ Mountoptions:
   - debug
 Volumebindingmode: Immediate
 
+
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -22,6 +25,8 @@ spec:
    - ReadWriteOnce
   storageClassName: slow
 
+
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -34,6 +39,7 @@ spec:
     storage: 8Gi
 
 
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
