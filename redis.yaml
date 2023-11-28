@@ -1,6 +1,6 @@
 ---
 apiVersion: storage.k8s.io/v1
-Kind: StorageClass
+kind: StorageClass
 Metadata:
   name: redis-storageclass
 Provisioner: kubernetes.io/aws-ebs
